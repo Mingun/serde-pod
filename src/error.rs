@@ -36,16 +36,7 @@ impl fmt::Display for Error {
 }
 
 impl error::Error for Error {
-  fn description(&self) -> &str {
-    match *self {
-      Error::Io(ref err) => error::Error::description(err),
-      Error::Encoding(ref err) => error::Error::description(err),
-      Error::Unknown(ref msg) => msg,
-      Error::Unsupported(ref msg) => msg,
-    }
-  }
-
-  fn cause(&self) -> Option<&error::Error> {
+  fn source(&self) -> Option<&(dyn error::Error + 'static)> {
     match *self {
       Error::Io(ref err) => Some(err),
       Error::Encoding(ref err) => Some(err),
